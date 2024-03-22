@@ -15,7 +15,20 @@ endpoint3 = "http://127.0.0.1:8000/"
 endpoint4 = "http://127.0.0.1:8000/api/"
 
 # HTTP request
-get_response = requests.get(endpoint4, json={"query":"Hello World"})   
-print(get_response.text)    
+get_response = requests.get(
+    endpoint4, 
+    # params={'abc':123},
+    params={"product_id": 123}
+)
+
+# gives the response in javascript object format
+# print(get_response.text)
+
+# gives the response in python dictionary format
 print(get_response.json())
+
+# accessing the 'key' of the python 'dictionary'
+# print(get_response.json()['message'])
+
+# gives the status code
 print(get_response.status_code)
