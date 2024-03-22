@@ -18,7 +18,7 @@ endpoint4 = "http://127.0.0.1:8000/api/"
 get_response = requests.get(
     endpoint4, 
     # params={'abc':123},
-    params={"product_id": 123}
+    json={"product_id": 123}
 )
 
 # gives the response in javascript object format
