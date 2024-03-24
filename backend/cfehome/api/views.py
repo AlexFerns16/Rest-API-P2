@@ -37,15 +37,14 @@ import json
 
 
 # -----------------------------------------------------------------
-@api_view(['GET'])
+@api_view(['POST'])
 def api_home(request, *args, **kwargs):
     """ 
     DRF API View
     """
-    instance = Product.objects.all().order_by("?").first()
-    data = {}
-    if instance:
-        data_dict = model_to_dict(instance, fields=['id', 'title', 'price', 'sale_price'])
-        data_ser = ProductSerializer(instance).data
-        print(request.body)
-        return Response(data_ser)
+    serializer = ProductSerializer(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        instance = serializer.save()
+        print(instance)
+        return Response(serializer.data)
+    return Response({"invalid": "not good data"}, status=400)

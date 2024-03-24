@@ -15,10 +15,10 @@ endpoint3 = "http://127.0.0.1:8000/"
 endpoint4 = "http://127.0.0.1:8000/api/"
 
 # HTTP request
-get_response = requests.get(
+get_response = requests.post(
     endpoint4, 
     # params={'abc':123},
-    json={"product_id": 123}
+    json={"title": "ABC123", "content": "Hello World", "price": 123}
 )
 
 # gives the headers
