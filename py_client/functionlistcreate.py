@@ -1,7 +1,7 @@
 import requests
 
 # django localhost:8000/api/
-endpoint = "http://127.0.0.1:8000/api/products/detail/1/"
+endpoint = "http://127.0.0.1:8000/api/products/list_create/"
 
 # HTTP request
 get_response = requests.get(endpoint)
