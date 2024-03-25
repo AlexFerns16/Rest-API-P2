@@ -1,14 +1,10 @@
 import requests
 
 # django localhost:8000/api/
-endpoint = "http://127.0.0.1:8000/api/products/create/"
+endpoint = "http://127.0.0.1:8000/api/products/list/"
 
 # HTTP request
-data = {
-    "title": "This field is done test",
-    "price": 42.97
-}
-get_response = requests.post(endpoint, json=data)
+get_response = requests.get(endpoint)
 
 # gives the response in python dictionary format
 print(get_response.json())
