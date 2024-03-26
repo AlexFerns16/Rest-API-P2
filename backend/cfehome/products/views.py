@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, mixins
 from products.models import Product
 from products.serializers import ProductSerializer
 from rest_framework.response import Response
@@ -8,6 +8,46 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 
 # Create your views here.
+
+# mixins
+# -----------------------------------------------------------------
+class ProductMixinView(
+        mixins.CreateModelMixin,            # create
+        mixins.ListModelMixin,              # list
+        mixins.RetrieveModelMixin,          # detail
+        generics.GenericAPIView             # generic
+    ):
+    
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+    
+    # list and detail
+    def get(self, request, *args, **kwargs):
+        print(args, kwargs)
+        pk = kwargs.get("pk")
+        if pk is not None:
+            # detail
+            return self.retrieve(request, *args, **kwargs)
+        # list
+        return self.list(request, *args, **kwargs)
+    
+    # create
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+    
+    # for create
+    def perform_create(self, serializer):
+        print(serializer.validated_data)
+        title = serializer.validated_data.get('title')
+        content = serializer.validated_data.get('content')
+        
+        if content is None:
+            content = "this is a single view doing a cool stuff"
+        serializer.save(content=content)
+        # serializer.save(user=request.user.username)
+
+product_mixin_view = ProductMixinView.as_view()
 
 
 # create class based view

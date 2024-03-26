@@ -2,12 +2,36 @@ from django.urls import path
 from products import views
 
 urlpatterns = [
-    path('create/', views.product_create_view),
-    path('detail/<int:pk>/', views.product_detail_view),
-    path('list/', views.product_list_view),
+    
+    # class based create
+    # -----------------------------------------------------------
+    # path('create/', views.product_create_view),
+    path('create/', views.product_mixin_view),
+    
+    # class based detail
+    # -----------------------------------------------------------
+    # path('detail/<int:pk>/', views.product_detail_view),
+    path('detail/<int:pk>/', views.product_mixin_view),
+    
+    # class based list
+    # -----------------------------------------------------------
+    # path('list/', views.product_list_view),
+    path('list/', views.product_mixin_view),
+    
+    # class based list_create
+    # -----------------------------------------------------------
     path('list_create/', views.product_list_create_view),
+    
+    # class based update
+    # -----------------------------------------------------------
+    path('update/<int:pk>/', views.product_update_view),
+    
+    # class based delete
+    # -----------------------------------------------------------
+    path('delete/<int:pk>/', views.product_delete_view),
+    
+    # function based CRUD
+    # -----------------------------------------------------------
     path('', views.product_alt_view),
     path('<int:pk>/', views.product_alt_view),
-    path('update/<int:pk>/', views.product_update_view),
-    path('delete/<int:pk>/', views.product_delete_view),
 ]
