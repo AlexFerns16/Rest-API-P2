@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <label>id:</label>
+    <input id="id" name="id" />
+
+    <label>title:</label>
+    <input id="title" name="title" />
+
+    <label>content:</label>
+    <input id="content" name="content" />
+
+    <label>price:</label>
+    <input id="price" name="price" />
+
+    <input type="submit" onclick="myFunction()" />
+
+    <br /><br /><br />
+
+    <h3>id:</h3>
+    <p id="dispid"></p>
+
+    <h3>title:</h3>
+    <p id="disptitle"></p>
+
+    <h3>content:</h3>
+    <p id="dispcontent"></p>
+
+    <h3>price:</h3>
+    <p id="dispprice"></p>
+
+    <script>
+      function myFunction() {
+        let id = document.getElementById("id").value;
+        console.log(id);
+        const url = `http://127.0.0.1:8000/api/products/update/${id}/`;
+
+        /* title */
+        varTitle = document.getElementById("title").value;
+
+        /* the content field in models is set to 'blank=True' and 'null=True' */
+        /* therefore setting 'content: null' is allowed */
+        /* absence of 'value in content field' will contain the 'value of title field', */
+        /* as it is set in views */
+        if (document.getElementById("content").value)
+          varContent = document.getElementById("content").value;
+        else varContent = null;
+
+        /* price */
+        varPrice = document.getElementById("price").value;
+
+        const updatedData = {
+          title: varTitle,
+          content: varContent,
+          price: varPrice,
+        };
+
+        const request = fetch(url, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            // You may need to include other headers depending on your server requirements
+          },
+          body: JSON.stringify(updatedData), // Convert object to JSON string
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json(); // Parse response as JSON
+          })
+          .then((data) => {
+            document.getElementById("dispid").innerHTML = data.id;
+            document.getElementById("disptitle").innerHTML = data.title;
+            document.getElementById("dispcontent").innerHTML = data.content;
+            document.getElementById("dispprice").innerHTML = data.price;
+            console.log(data); // Log the response data
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with the fetch operation:",
+              error
+            );
+          });
+      }
+    </script>
+  </body>
+</html>

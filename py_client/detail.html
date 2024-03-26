@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>get id:</h3>
+    <input id="id" name="id" />
+
+    <h3>title:</h3>
+    <p id="title"></p>
+
+    <h3>content:</h3>
+    <p id="content"></p>
+
+    <input type="submit" onclick="myFunction()" />
+
+    <script>
+      function myFunction() {
+        let id = document.getElementById("id").value;
+        console.log(id);
+        const url = `http://localhost:8000/api/products/detail/${id}/`;
+        const request = fetch(url, {
+          method: "GET",
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            document.getElementById("title").innerHTML = data.title;
+            document.getElementById("content").innerHTML = data.content;
+            console.log(data); // Log the response text
+          })
+          .catch((error) => {
+            console.error(
+              "There was a problem with the fetch operation:",
+              error
+            );
+          });
+      }
+    </script>
+  </body>
+</html>
