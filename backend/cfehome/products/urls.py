@@ -5,18 +5,18 @@ urlpatterns = [
     
     # class based create
     # -----------------------------------------------------------
-    # path('create/', views.product_create_view),
-    path('create/', views.product_mixin_view),
+    path('create/', views.product_create_view),
+    # path('create/', views.product_mixin_view),
     
     # class based detail
     # -----------------------------------------------------------
-    # path('detail/<int:pk>/', views.product_detail_view),
-    path('detail/<int:pk>/', views.product_mixin_view),
+    path('detail/<int:pk>/', views.product_detail_view),
+    # path('detail/<int:pk>/', views.product_mixin_view),
     
     # class based list
     # -----------------------------------------------------------
-    # path('list/', views.product_list_view),
-    path('list/', views.product_mixin_view),
+    path('list/', views.product_list_view),
+    # path('list/', views.product_mixin_view),
     
     # class based list_create
     # -----------------------------------------------------------
