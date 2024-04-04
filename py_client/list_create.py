@@ -25,8 +25,8 @@ if auth_response.status_code == 200:
     
     token = auth_response.json()['token']
     headers = {
-        'Authorization': 'Token {}'.format(token)
-        # 'Authorization': 'Bearer {}'.format(token)
+        # 'Authorization': 'Token {}'.format(token)
+        'Authorization': 'Bearer {}'.format(token)
     }
 
     # django localhost:8000/api/
