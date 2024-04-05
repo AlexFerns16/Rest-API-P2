@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from rest_framework import authentication, generics, mixins, permissions
 from products.models import Product
-from products.permissions import IsStaffEditorPermission
+# from products.permissions import IsStaffEditorPermission
+from api.permissions import IsStaffEditorPermission
 from products.serializers import ProductSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from api.authentication import TokenAuthentication
+from api.mixins import StaffEditorPermissionMixin
 
 # Create your views here.
 
@@ -54,7 +56,7 @@ product_mixin_view = ProductMixinView.as_view()
 
 # create class based view
 # -----------------------------------------------------------------
-class ProductsCreateAPIView(generics.CreateAPIView):
+class ProductsCreateAPIView(StaffEditorPermissionMixin, generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     
@@ -73,10 +75,10 @@ product_create_view = ProductsCreateAPIView.as_view()
 
 # retrieve (detail) class based view
 # -----------------------------------------------------------------
-class ProductDetailAPIView(generics.RetrieveAPIView):
+class ProductDetailAPIView(StaffEditorPermissionMixin, generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
+    # permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     # lookup_field = 'pk'
 
 product_detail_view = ProductDetailAPIView.as_view()
@@ -84,10 +86,10 @@ product_detail_view = ProductDetailAPIView.as_view()
 
 # update class based view
 # -----------------------------------------------------------------
-class ProductUpdateAPIView(generics.UpdateAPIView):
+class ProductUpdateAPIView(StaffEditorPermissionMixin, generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
+    # permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     lookup_field = 'pk'
     
     def perform_update(self, serializer):
@@ -100,10 +102,10 @@ product_update_view = ProductUpdateAPIView.as_view()
 
 # delete class based view
 # -----------------------------------------------------------------
-class ProductDestroyAPIView(generics.DestroyAPIView):
+class ProductDestroyAPIView(StaffEditorPermissionMixin, generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
+    # permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     lookup_field = 'pk'
     
     def perform_destroy(self, instance):
@@ -114,7 +116,7 @@ product_delete_view = ProductDestroyAPIView.as_view()
 
 # list class based view
 # -----------------------------------------------------------------
-class ProductListAPIView(generics.ListAPIView):
+class ProductListAPIView(StaffEditorPermissionMixin, generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -123,7 +125,7 @@ product_list_view = ProductListAPIView.as_view()
 
 # combined list and create class based view
 # -----------------------------------------------------------------
-class ProductsListCreateAPIView(generics.ListCreateAPIView):
+class ProductsListCreateAPIView(StaffEditorPermissionMixin, generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # authentication_classes = [
@@ -133,7 +135,7 @@ class ProductsListCreateAPIView(generics.ListCreateAPIView):
     # ]
     # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     # permission_classes = [permissions.DjangoModelPermissions]
-    permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
+    # permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
     
     def perform_create(self, serializer):
         print(serializer.validated_data)
