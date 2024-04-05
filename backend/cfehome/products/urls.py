@@ -10,7 +10,7 @@ urlpatterns = [
     
     # class based detail
     # -----------------------------------------------------------
-    path('detail/<int:pk>/', views.product_detail_view),
+    path('detail/<int:pk>/', views.product_detail_view, name='product-detail'),
     # path('detail/<int:pk>/', views.product_mixin_view),
     
     # class based list
@@ -20,11 +20,11 @@ urlpatterns = [
     
     # class based list_create
     # -----------------------------------------------------------
-    path('list_create/', views.product_list_create_view),
+    path('list_create/', views.product_list_create_view, name='product-list-create'),
     
     # class based update
     # -----------------------------------------------------------
-    path('update/<int:pk>/', views.product_update_view),
+    path('update/<int:pk>/', views.product_update_view, name='product-edit'),
     
     # class based delete
     # -----------------------------------------------------------
