@@ -15,6 +15,7 @@ class ProductSerializer(serializers.ModelSerializer):
     # email = serializers.EmailField(write_only=True)
     # title = serializers.CharField(validators=[validate_title])
     title = serializers.CharField(validators=[validate_title_no_hello, unique_product_title])
+    name = serializers.CharField(source='title', read_only=True)
     
     class Meta:
         model = Product
@@ -24,6 +25,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'url',
             # 'email',
             'title',
+            'name',
             'content',
             'price',
             'sale_price',
