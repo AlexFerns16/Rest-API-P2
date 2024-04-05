@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from products.models import Product
 from rest_framework.reverse import reverse
-from products.validators import validate_title
+from products.validators import validate_title, validate_title_no_hello, unique_product_title
 
 class ProductSerializer(serializers.ModelSerializer):
     
@@ -13,7 +13,8 @@ class ProductSerializer(serializers.ModelSerializer):
         lookup_field='pk'
     )
     # email = serializers.EmailField(write_only=True)
-    title = serializers.CharField(validators=[validate_title])
+    # title = serializers.CharField(validators=[validate_title])
+    title = serializers.CharField(validators=[validate_title_no_hello, unique_product_title])
     
     class Meta:
         model = Product
