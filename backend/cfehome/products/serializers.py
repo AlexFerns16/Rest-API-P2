@@ -5,8 +5,12 @@ from rest_framework.reverse import reverse
 class ProductSerializer(serializers.ModelSerializer):
     
     my_discount = serializers.SerializerMethodField(read_only=True)
-    url = serializers.SerializerMethodField(read_only=True)
+    # url = serializers.SerializerMethodField(read_only=True)
     edit_url = serializers.SerializerMethodField(read_only=True)
+    url = serializers.HyperlinkedIdentityField(
+        view_name='product-detail',
+        lookup_field='pk'
+    )
     
     class Meta:
         model = Product
