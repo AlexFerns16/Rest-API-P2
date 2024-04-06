@@ -5,7 +5,7 @@ from products.validators import validate_title, validate_title_no_hello, unique_
 from api.serializers import UserPublicSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
-    user = UserPublicSerializer(read_only=True)
+    owner = UserPublicSerializer(source='user', read_only=True)
     my_user_data = serializers.SerializerMethodField(read_only=True)
     my_discount = serializers.SerializerMethodField(read_only=True)
     # url = serializers.SerializerMethodField(read_only=True)
@@ -15,6 +15,7 @@ class ProductSerializer(serializers.ModelSerializer):
         lookup_field='pk'
     )
     # email = serializers.EmailField(write_only=True)
+    email = serializers.EmailField(source='user.email', read_only=True)
     # title = serializers.CharField(validators=[validate_title])
     title = serializers.CharField(validators=[validate_title_no_hello, unique_product_title])
     name = serializers.CharField(source='title', read_only=True)
@@ -23,10 +24,11 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = [
             'pk',
-            'user',
+            'owner',
+            # 'user',
             'edit_url',
             'url',
-            # 'email',
+            'email',
             'title',
             'name',
             'content',
