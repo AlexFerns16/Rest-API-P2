@@ -2,9 +2,10 @@ from rest_framework import serializers
 from products.models import Product
 from rest_framework.reverse import reverse
 from products.validators import validate_title, validate_title_no_hello, unique_product_title
+from api.serializers import UserPublicSerializer
 
 class ProductSerializer(serializers.ModelSerializer):
-    
+    user = UserPublicSerializer(read_only=True)
     my_user_data = serializers.SerializerMethodField(read_only=True)
     my_discount = serializers.SerializerMethodField(read_only=True)
     # url = serializers.SerializerMethodField(read_only=True)
