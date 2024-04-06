@@ -146,8 +146,19 @@ class ProductsListCreateAPIView(StaffEditorPermissionMixin, generics.ListCreateA
         
         if content is None:
             content = title
-        serializer.save(content=content)
+        serializer.save(user=self.request.user, content=content)
         # serializer.save(user=request.user.username)
+        
+    def get_queryset(self, *args, **kwargs):
+        qs = super().get_queryset(*args, **kwargs)
+        # print(qs, 'test query')
+        request = self.request
+        # print(request.user)
+        user = request.user
+        if not user.is_authenticated:
+            return Product.objects.none()
+        # print(qs.filter(user=request.user))
+        return qs.filter(user=request.user)
 
 product_list_create_view = ProductsListCreateAPIView.as_view()
 
