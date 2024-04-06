@@ -5,6 +5,7 @@ from products.validators import validate_title, validate_title_no_hello, unique_
 
 class ProductSerializer(serializers.ModelSerializer):
     
+    my_user_data = serializers.SerializerMethodField(read_only=True)
     my_discount = serializers.SerializerMethodField(read_only=True)
     # url = serializers.SerializerMethodField(read_only=True)
     edit_url = serializers.SerializerMethodField(read_only=True)
@@ -21,7 +22,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = [
             'pk',
-            # 'user',
+            'user',
             'edit_url',
             'url',
             # 'email',
@@ -30,8 +31,12 @@ class ProductSerializer(serializers.ModelSerializer):
             'content',
             'price',
             'sale_price',
-            'my_discount'
+            'my_discount',
+            'my_user_data'
         ]
+    
+    def get_my_user_data(self, obj):
+        return {'username': obj.user.username}
     
     # field validation
     # def validate_title(self, value):
