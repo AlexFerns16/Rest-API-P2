@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'products',
     'rest_framework',
     'rest_framework.authtoken',
+    'search',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
