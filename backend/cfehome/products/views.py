@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from api.authentication import TokenAuthentication
-from api.mixins import StaffEditorPermissionMixin
+from api.mixins import UserQuerySetMixin, StaffEditorPermissionMixin
 
 # Create your views here.
 
@@ -75,7 +75,7 @@ product_create_view = ProductsCreateAPIView.as_view()
 
 # retrieve (detail) class based view
 # -----------------------------------------------------------------
-class ProductDetailAPIView(StaffEditorPermissionMixin, generics.RetrieveAPIView):
+class ProductDetailAPIView(UserQuerySetMixin, StaffEditorPermissionMixin, generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
@@ -86,7 +86,7 @@ product_detail_view = ProductDetailAPIView.as_view()
 
 # update class based view
 # -----------------------------------------------------------------
-class ProductUpdateAPIView(StaffEditorPermissionMixin, generics.UpdateAPIView):
+class ProductUpdateAPIView(UserQuerySetMixin, StaffEditorPermissionMixin, generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
@@ -102,7 +102,7 @@ product_update_view = ProductUpdateAPIView.as_view()
 
 # delete class based view
 # -----------------------------------------------------------------
-class ProductDestroyAPIView(StaffEditorPermissionMixin, generics.DestroyAPIView):
+class ProductDestroyAPIView(UserQuerySetMixin, StaffEditorPermissionMixin, generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # permission_classes = [permissions.IsAdminUser, IsStaffEditorPermission]
@@ -125,7 +125,7 @@ product_list_view = ProductListAPIView.as_view()
 
 # combined list and create class based view
 # -----------------------------------------------------------------
-class ProductsListCreateAPIView(StaffEditorPermissionMixin, generics.ListCreateAPIView):
+class ProductsListCreateAPIView(UserQuerySetMixin, StaffEditorPermissionMixin, generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     # authentication_classes = [
@@ -149,16 +149,16 @@ class ProductsListCreateAPIView(StaffEditorPermissionMixin, generics.ListCreateA
         serializer.save(user=self.request.user, content=content)
         # serializer.save(user=request.user.username)
         
-    def get_queryset(self, *args, **kwargs):
-        qs = super().get_queryset(*args, **kwargs)
-        # print(qs, 'test query')
-        request = self.request
-        # print(request.user)
-        user = request.user
-        if not user.is_authenticated:
-            return Product.objects.none()
-        # print(qs.filter(user=request.user))
-        return qs.filter(user=request.user)
+    # def get_queryset(self, *args, **kwargs):
+    #     qs = super().get_queryset(*args, **kwargs)
+    #     # print(qs, 'test query')
+    #     request = self.request
+    #     # print(request.user)
+    #     user = request.user
+    #     if not user.is_authenticated:
+    #         return Product.objects.none()
+    #     # print(qs.filter(user=request.user))
+    #     return qs.filter(user=request.user)
 
 product_list_create_view = ProductsListCreateAPIView.as_view()
 
