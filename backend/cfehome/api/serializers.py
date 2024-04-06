@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
 class UserProductInlineSerializer(serializers.Serializer):
-    # url = serializers.HyperlinkedIdentityField(
-    #     view_name='product-detail',
-    #     lookup_field='pk',
-    #     read_only=True
-    # )
+    url = serializers.HyperlinkedIdentityField(
+        view_name='product-detail',
+        lookup_field='pk',
+        read_only=True
+    )
     title = serializers.CharField(read_only=True)
 
 class UserPublicSerializer(serializers.Serializer):
@@ -17,4 +17,4 @@ class UserPublicSerializer(serializers.Serializer):
         print(obj)
         user = obj
         my_products_qs = user.product_set.all()[:5] # selects only the first five objects
-        return UserProductInlineSerializer(my_products_qs, many=True).data
+        return UserProductInlineSerializer(my_products_qs, many=True, context=self.context).data
