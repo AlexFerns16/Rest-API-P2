@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'search',
     'corsheaders',
+    'algoliasearch_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -150,4 +151,10 @@ REST_FRAMEWORK = {
     
     'PAGE_SIZE': 10
     
+}
+
+ALGOLIA = {
+    'APPLICATION_ID': 'XAWUUDZ8AJ',
+    'API_KEY': '4acf35a730f26d8acb6726778b3816cd',
+    'INDEX_PREFIX': 'cfe'
 }
