@@ -2,10 +2,29 @@ from django.shortcuts import render
 from rest_framework import generics
 from products.models import Product
 from products.serializers import ProductSerializer
+from search import client
+from rest_framework.response import Response
 
 # Create your views here.
 
-class SearchListView(generics.ListAPIView):
+class SearchListView(generics.GenericAPIView):
+    def get(self, request, *args, **kwargs):
+        user = None
+        if request.user.is_authenticated:
+            user = request.user.username
+        query = request.GET.get('q')
+        public = str(request.GET.get('public')) != "0"
+        # public = True
+        tag = request.GET.get('tag') or None
+        print(user, query, public, tag)
+        if not query:
+            return Response('', status=400)
+        results = client.perform_search(query, tags=tag, user=user, public=public)
+        print(results)
+        return Response(results)
+
+
+class SearchListOldView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     
