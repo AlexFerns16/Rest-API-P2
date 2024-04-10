@@ -32,6 +32,6 @@ urlpatterns = [
     
     # function based CRUD
     # -----------------------------------------------------------
-    path('', views.product_alt_view),
+    # path('', views.product_alt_view),
     path('<int:pk>/', views.product_alt_view),
 ]

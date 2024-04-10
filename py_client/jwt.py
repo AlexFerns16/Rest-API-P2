@@ -1,6 +1,4 @@
-# Blog post reference: https://www.codingforentrepreneurs.com/blog/python-jwt-client-django-rest-framework-simplejwt
-
-from dataclasses import dataclass 
+from dataclasses import dataclass
 import requests
 from getpass import getpass
 import pathlib 
@@ -73,7 +71,7 @@ class JWTClient:
             Run login process
             """
             self.perform_auth()
-        
+
     def get_headers(self, header_type=None):
         """
         Default headers for HTTP requests
@@ -113,7 +111,7 @@ class JWTClient:
             self.refresh = data.get('refresh')
             if self.access and self.refresh:
                 self.cred_path.write_text(json.dumps(data))
-    
+
     def verify_token(self):
         """
         Simple method for verifying your
@@ -127,7 +125,7 @@ class JWTClient:
         endpoint = f"{self.base_endpoint}/token/verify/" 
         r = requests.post(endpoint, json=data)
         return r.status_code == 200
-    
+
     def clear_tokens(self):
         """
         Remove any/all JWT token data
@@ -138,7 +136,7 @@ class JWTClient:
         self.refresh = None
         if self.cred_path.exists():
             self.cred_path.unlink()
-    
+
     def perform_refresh(self):
         """
         Refresh the access token by using the correct
@@ -173,7 +171,7 @@ class JWTClient:
         """
         headers = self.get_headers()
         if endpoint is None or self.base_endpoint not in str(endpoint):
-            endpoint = f"{self.base_endpoint}/products/?limit={limit}" 
+            endpoint = f"{self.base_endpoint}/products/list_create/?limit={limit}" 
         r = requests.get(endpoint, headers=headers) 
         if r.status_code != 200:
             raise Exception(f"Request not complete {r.text}")
@@ -185,7 +183,7 @@ if __name__ == "__main__":
     """
     Here's Simple example of how to use our client above.
     """
-    
+
     # this will either prompt a login process
     # or just run with current stored data
     client = JWTClient() 
